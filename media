@@ -1,0 +1,127 @@
+#primeiro, apêndice da lista de heróis e vilões
+herois = [
+    'Gohan',
+    'Goku',
+    'Goten',
+    'Kuririn',
+    'Piccolo',
+    'Tenshinhan',
+    'Trunks',
+    'Uub',
+    'Vegeta',
+    'Yamcha'
+]
+
+viloes = [
+    'Babidi',
+    'Baby',
+    'Broly',
+    'Buu',
+    'Cell',
+    'Cooler',
+    'Frieza',
+    'Hit',
+    'Janemba',
+    'Zamasu'
+]
+
+def isvowel(char):
+    vogais = ["a", "e", "i", "o", "u"]
+    isvowel = False
+    for v in vogais:
+        if(char == v or char == v.upper()):
+            isvowel = True    
+    return isvowel
+
+def isperfect(p1, p2):
+    if(len(p1)+len(p2) <= 3 or (not isvowel(p1[0]) and not isvowel(p2[0])) or (isvowel(p2[0]) and isvowel(p2[0]))): #nota
+        return False
+    else:
+        return True
+
+def fusao(str1, str2):
+    fusao = ""
+    char_num1 = len(str1)
+    char_num2 = len(str2)
+    
+    part1 = ""
+    part2 = ""
+
+    #constração da parte1 da string da fusão
+    if(char_num1 <= 4):
+        part1 = str1[0]
+    else:
+        num = (char_num1 // 2) + 1 if (char_num1 % 2 != 0) else (char_num1 // 2)
+        for k in range(num):
+            part1 += str1[k]
+    
+    #construção da parte dois da string da fusão
+    if(char_num2 <= 4):
+        for k in range(char_num2-1):
+            part2 += str2[k+1]
+    else:
+        num = (char_num2 // 2) if (char_num2 % 2 != 0) else (char_num2 // 2)-1
+        for k in range(num):
+            part2 += str2[k + (char_num2-num)]
+    
+    #análise do estado da fusão
+    perfeito = isperfect(part1, part2)
+    contador = 0
+    while(not perfeito and contador != 2):
+        if(contador == 0):
+            #reconstrução da parte1 da string da fusão
+            if(char_num1 <= 4):
+                part1 = str1[0] + str1[1]
+            else:
+                num = (char_num1 // 2)+2 if (char_num1 % 2 != 0) else (char_num1 // 2)
+                for k in range(num):
+                    part1 += str1[k]
+
+            #mantendo parte2 da string da fusão
+            if(char_num2 <= 4):
+                for k in range(char_num2-1):
+                    part2 += str2[k+1]
+            else:
+                num = (char_num2 // 2) if (char_num2 % 2 != 0) else (char_num2 // 2)-1
+                for k in range(num):
+                    part2 += str2[k + (char_num2-num)]
+
+
+
+        elif(contador == 1):
+            if(char_num1 <= 4): #mantem
+                part1 = str1[0] + str1[1]
+            else: #retorna à codição inicial
+                num = (char_num2 // 2) if (char_num2 % 2 != 0) else (char_num2 // 2)-1
+                for k in range(num):
+                    part2 += str2[k + (char_num2-num)]
+            
+            if(char_num2 <= 4):
+                part1 = str2[len(str2)-3] + str2[len(str2)-2] + str2[len(str2)-1]
+            else:
+                num = (char_num2 // 2)+1 if (char_num2 % 2 != 0) else (char_num2 // 2)
+                for k in range(num):
+                    part2 += str2[k + (char_num2-num)]
+
+
+
+
+
+
+        if():
+            perfeito == True
+
+        
+        #atualização dos valores
+        perfeito = isperfect(part1, part2)
+        if(not perfeito):
+            contador += 1
+    
+
+
+
+#inputs
+
+while(pnts_h >= 8000 or pnts_v >= 800 or special): #cada interação, uma fusão
+    nome
+
