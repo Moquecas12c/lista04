@@ -24,7 +24,7 @@ viloes = [
     'Janemba',
     'Zamasu'
 ]
-
+participou = []
 def isvowel(char):
     vogais = ["a", "e", "i", "o", "u"]
     isvowel = False
@@ -32,43 +32,48 @@ def isvowel(char):
         if(char == v or char == v.upper()):
             isvowel = True    
     return isvowel
-
 def isperfect(p1, p2):
     if(len(p1)+len(p2) <= 3 or (not isvowel(p1[0]) and not isvowel(p2[0])) or (isvowel(p2[0]) and isvowel(p2[0]))): #nota
         return False
     else:
         return True
 
-participou = []
-
 def fusao(str1, str2):
     if((str1 in herois and str2 in viloes) or (str1 in viloes and str2 in viloes)):
         fusao = ""
+        perfeito = False
         char_num1 = len(str1)
         char_num2 = len(str2)
         
         part1 = ""
         part2 = ""
+        if((str1 == "Goku" and str2 == "Vegeta") or (str1 == "Vegeta" and str2 == "Goku")):
+            fusao = "Vegito"
+            perfeito = True
+        elif((str1 == "Goten" and str2 == "Trunks") or (str1 == "Trunks" and str2 == "Goten")):
+            fusao = "Gotenks"
+            perfeito = True
+        else:
+            #constração da parte1 da string da fusão
+            if(char_num1 <= 4):
+                part1 = str1[0]
+            else:
+                num = (char_num1 // 2) + 1 if (char_num1 % 2 != 0) else (char_num1 // 2)
+                for k in range(num):
+                    part1 += str1[k]
+            
+            #construção da parte dois da string da fusão
+            if(char_num2 <= 4):
+                for k in range(char_num2-1):
+                    part2 += str2[k+1]
+            else:
+                num = (char_num2 // 2) if (char_num2 % 2 != 0) else (char_num2 // 2)-1
+                for k in range(num):
+                    part2 += str2[k + (char_num2-num)]
+            
+            #análise do estado da fusão
+            perfeito = isperfect(part1, part2)
 
-        #constração da parte1 da string da fusão
-        if(char_num1 <= 4):
-            part1 = str1[0]
-        else:
-            num = (char_num1 // 2) + 1 if (char_num1 % 2 != 0) else (char_num1 // 2)
-            for k in range(num):
-                part1 += str1[k]
-        
-        #construção da parte dois da string da fusão
-        if(char_num2 <= 4):
-            for k in range(char_num2-1):
-                part2 += str2[k+1]
-        else:
-            num = (char_num2 // 2) if (char_num2 % 2 != 0) else (char_num2 // 2)-1
-            for k in range(num):
-                part2 += str2[k + (char_num2-num)]
-        
-        #análise do estado da fusão
-        perfeito = isperfect(part1, part2)
         if(not perfeito):
             print(f"A sincronização foi um desastre... {part1+part2} é uma fusão imperfeita!")
         contador = 0
@@ -128,11 +133,13 @@ def fusao(str1, str2):
 
 
 #inputs
+pnts_h = 0
+pnts_v = 0
+special = False
 
-while(pnts_h >= 8000 or pnts_v >= 800 or special): #cada interação, uma fusão
+while(pnts_h >= 8000 or pnts_v >= 800 or not special): #cada interação, uma fusão
     
     #nota: ordem dos prints
-    
     nome1 = input()
     nome2 = input()
     print(f"{nome1} se elege para participar da fusão!")
@@ -146,9 +153,22 @@ while(pnts_h >= 8000 or pnts_v >= 800 or special): #cada interação, uma fusão
 
     elif(not(nome1 in participou or nome2 in participou)):
         fusao_n1_n2 = fusao(str2=nome2,str1=nome1) #teste de parâmetros sem ordem
+
+
+        
         if(fusao_n1_n2 == "inválida"):
             print("Heróis e vilões não se misturam! As auras dos dois participantes são incompatíveis.")
         else:
-            participou.append(nome1)
-            participou.append(nome2)
-            if(nome1 in )
+            if(fusao_n1_n2 != ""): #fusão perfeita, isto é, também sendo diferente de incompatível
+                participou.append(nome1)
+                participou.append(nome2)
+                if(nome1 in herois and nome2 in herois):
+                    print(f"Fusão realizada com sucesso! {fusao_n1_n2} entra em combate para derrotar o exército de vilões!")
+                else:
+                    print(f"Fusão realizada com sucesso! {fusao_n1_n2} entra em combate com sede de destruir Satan City!")
+            else:
+                print("Aparentemente essa combinação é incompatível...")
+
+
+
+
